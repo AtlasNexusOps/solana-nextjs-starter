@@ -1,17 +1,17 @@
 # Solana + Next.js Starter Kit
 
-🟣🔮 Next.js App Router + Solana wallet adapter + Anchor program — prêt à déployer.
+🟣🔮 Next.js App Router + Solana wallet adapter + Anchor program — ready to deploy.
 
-Une page blanche propre avec connexion wallet Phantom/Solflare, airdrop devnet, et un programme Anchor counter. Clone et code.
+A clean starting point with Phantom/Solflare wallet connection, devnet airdrop, and an Anchor counter program. Clone and build.
 
 ---
 
 ## Quick Start
 
 ```bash
-# 1. Prérequis
+# 1. Prerequisites
 # - Node.js 20+, pnpm, Solana CLI (agave), Anchor CLI 0.30+
-# - Wallet Phantom ou Solflare (extension navigateur)
+# - Phantom or Solflare wallet (browser extension)
 
 # 2. Clone
 git clone https://github.com/AtlasNexusOps/solana-nextjs-starter.git
@@ -24,7 +24,7 @@ pnpm install
 pnpm dev
 # → http://localhost:3000
 
-# 5. Build & deploy le programme Anchor (optionnel)
+# 5. Build & deploy the Anchor program (optional)
 cd program
 anchor build
 anchor deploy --provider.cluster devnet
@@ -37,7 +37,7 @@ anchor deploy --provider.cluster devnet
 ```
 solana-nextjs-starter/
 ├── apps/
-│   └── web/                     # Frontend Next.js 15
+│   └── web/                     # Next.js 15 frontend
 │       ├── app/
 │       │   ├── layout.tsx        # Root layout + SolanaProvider
 │       │   ├── page.tsx          # Landing page
@@ -68,7 +68,7 @@ solana-nextjs-starter/
 
 ### Wallet adapter
 
-Le provider configure automatiquement Phantom et Solflare :
+The provider auto-configures Phantom and Solflare:
 
 ```tsx
 // apps/web/app/providers.tsx
@@ -81,33 +81,33 @@ Le provider configure automatiquement Phantom et Solflare :
 </ConnectionProvider>
 ```
 
-### Composants prêts à l'emploi
+### Components
 
-| Composant | Fichier | Description |
-|-----------|---------|-------------|
-| `WalletButton` | `components/wallet-button.tsx` | Bouton "Connect Wallet" (wrapper du wallet-adapter-react-ui) |
-| `BalanceDisplay` | `components/balance-display.tsx` | Affiche le solde SOL en temps réel |
-| `AirdropButton` | `components/airdrop-button.tsx` | Demande 1 SOL sur devnet (ne fonctionne que sur devnet/testnet) |
+| Component | File | Description |
+|-----------|------|-------------|
+| `WalletButton` | `components/wallet-button.tsx` | "Connect Wallet" button (wraps wallet-adapter-react-ui) |
+| `BalanceDisplay` | `components/balance-display.tsx` | Live SOL balance display |
+| `AirdropButton` | `components/airdrop-button.tsx` | Request 1 SOL on devnet (devnet/testnet only) |
 
-### Configuration RPC
+### RPC Configuration
 
 ```bash
-# Par défaut : devnet
-# Pour changer : variable d'env
+# Default: devnet
+# Switch via env var:
 NEXT_PUBLIC_SOLANA_RPC=https://api.mainnet-beta.solana.com pnpm dev
 ```
 
 ---
 
-## Programme Anchor
+## Anchor Program
 
-Un programme counter minimal avec 3 instructions :
+A minimal counter program with 3 instructions:
 
 | Instruction | Description |
 |-------------|-------------|
-| `initialize` | Crée un compteur lié à ton wallet (PDA) |
-| `increment` | Incrémente le compteur |
-| `decrement` | Décrémente (bloqué si déjà à 0) |
+| `initialize` | Creates a counter tied to your wallet (PDA) |
+| `increment` | Increments the counter |
+| `decrement` | Decrements (blocked if already at 0) |
 
 ### Build
 
@@ -117,25 +117,25 @@ anchor build
 # → target/deploy/counter.so
 ```
 
-### Déployer sur devnet
+### Deploy to devnet
 
 ```bash
-# 1. Config wallet
+# 1. Configure wallet
 solana config set --url devnet
 
-# 2. Fund wallet (si besoin)
+# 2. Fund wallet if needed
 solana airdrop 2
 
 # 3. Deploy
 anchor deploy --provider.cluster devnet
-# → Récupère le Program ID généré
+# → Copy the generated Program ID
 
-# 4. Mettre à jour le Program ID dans :
+# 4. Update the Program ID in:
 #    - program/programs/counter/src/lib.rs (declare_id!)
 #    - program/Anchor.toml (programs.localnet)
 ```
 
-### Tester
+### Test
 
 ```bash
 cd program
@@ -144,9 +144,9 @@ anchor test --provider.cluster localnet
 
 ---
 
-## Déploiement frontend
+## Frontend Deployment
 
-### Render (gratuit)
+### Render (free tier)
 
 ```yaml
 # render.yaml
@@ -168,11 +168,11 @@ services:
 
 ---
 
-## Dépendances clés
+## Key Dependencies
 
 | Package | Version | Usage |
 |---------|---------|-------|
-| `next` | ^15.2 | Framework React |
+| `next` | ^15.2 | React framework |
 | `react` | ^19.0 | UI |
 | `@solana/web3.js` | ^1.98 | RPC calls, transactions |
 | `@solana/wallet-adapter-react` | ^0.15 | Wallet state hooks |
@@ -189,7 +189,7 @@ services:
 ```bash
 pnpm add @solana/wallet-adapter-react-ui
 ```
-Le CSS est importé dans `providers.tsx`.
+The CSS is imported in `providers.tsx`.
 
 ### "Cannot find module @solana/web3.js"
 ```bash
@@ -197,27 +197,27 @@ pnpm install
 ```
 
 ### Anchor build fails — "unknown feature init-if-needed"
-Passe à Anchor 0.30.1+ :
+Upgrade to Anchor 0.30.1+:
 ```bash
 avm install 0.30.1
 avm use 0.30.1
 ```
 
-### Wallet bloqué sur mainnet ?
-Par défaut le RPC pointe sur **devnet**. Change `NEXT_PUBLIC_SOLANA_RPC` pour basculer.
+### Wallet stuck on mainnet?
+The default RPC points to **devnet**. Change `NEXT_PUBLIC_SOLANA_RPC` to switch.
 
-### Comment passer sur mainnet ?
+### How do I go to mainnet?
 ```bash
 NEXT_PUBLIC_SOLANA_RPC=https://api.mainnet-beta.solana.com pnpm dev
 ```
-⚠️ Les transactions coûtent du vrai SOL sur mainnet.
+⚠️ Transactions cost real SOL on mainnet.
 
 ---
 
 ## License
 
-MIT — utilise, modifie, déploie librement.
+MIT — use, modify, deploy freely.
 
 ---
 
-Construit par [Atlas Nexus](https://github.com/AtlasNexusOps) · 2026
+Built by [Atlas Nexus](https://github.com/AtlasNexusOps) · 2026
